@@ -1,8 +1,9 @@
 plugins {
   alias(libs.plugins.android.application)
+  alias(libs.plugins.kotlin.android)
   alias(libs.plugins.compose.compiler)
   alias(libs.plugins.kotlin.serialization)
-  id("org.jetbrains.kotlin.kapt")
+  alias(libs.plugins.ksp)
 }
 
 android {
@@ -26,6 +27,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     buildFeatures {
       compose = true
       aidl = false
@@ -38,11 +40,15 @@ android {
         excludes += "/META-INF/{AL2.0,LGPL2.1}"
       }
     }
-}
 
 kotlin {
-    jvmToolchain(17)
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+    }
 }
+}
+
+
 
 dependencies {
   val composeBom = platform(libs.androidx.compose.bom)
@@ -80,9 +86,12 @@ dependencies {
 
   // Navigation
   implementation(libs.navigation.compose)
+  implementation(libs.androidx.navigation3.runtime)
+  implementation(libs.androidx.navigation3.ui)
+  implementation("androidx.compose.material:material-icons-extended")
   
   // Room
   implementation(libs.room.runtime)
-  kapt(libs.room.compiler)
+  ksp(libs.room.compiler)
   implementation(libs.room.ktx)
 }

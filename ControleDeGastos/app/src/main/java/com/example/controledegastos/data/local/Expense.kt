@@ -9,5 +9,9 @@ data class Expense(
     val description: String,
     val value: Double,
     val category: String,
-    val timestamp: Long = System.currentTimeMillis()
+    val timestamp: Long = System.currentTimeMillis(),
+    val receiptUri: String? = null,
+    val location: String? = null,
+    val remoteId: Int? = null,
+    val isSynced: Boolean = false
 )
